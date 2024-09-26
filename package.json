@@ -2,10 +2,18 @@
   "name": "cursor-sync",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun run build && node .\\build\\index.js",
+    "build": "bun build ./index.ts --outdir ./build --target node --external node-autoit-koffi"
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "prettier": "^3.3.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "node-autoit-koffi": "^1.0.5"
   }
 }
