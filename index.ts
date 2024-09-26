@@ -42,22 +42,25 @@ async function main() {
   // console.log("Parsed arguments:", parsedArgs);
 
   if (parsedArgs.root) {
-    await new Promise<void>(async (resolve) => {
-      const root = JSON.stringify(parsedArgs.root);
-      const filePath = JSON.stringify(parsedArgs.filePath);
-      const lineNumber = parsedArgs.lineNumber;
-      const columnNumber = parsedArgs.columnNumber;
+    const root = JSON.stringify(parsedArgs.root);
+    const filePath = JSON.stringify(parsedArgs.filePath);
+    const lineNumber = parsedArgs.lineNumber;
+    const columnNumber = parsedArgs.columnNumber;
 
-      exec(
-        `cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`,
-        () => {
-          resolve();
-        },
-      );
-    });
+    await Promise.all([
+      new Promise<void>((resolve) => {
+        exec(
+          `cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`,
+          () => {
+            resolve();
+          },
+        );
+      }),
+      autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]"),
+    ]);
+  } else {
+    await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
   }
-
-  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 }
 
 void main();
