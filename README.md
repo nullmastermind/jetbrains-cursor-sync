@@ -25,7 +25,14 @@
    bun install
    ```
 
-4. Build the project:
+4. Install the "REST Control" extension for Visual Studio Code:
+   - Open Visual Studio Code
+   - Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X)
+   - Search for "REST Control"
+   - Click "Install" on the extension by dpar39
+   - Alternatively, you can install it directly from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/items?itemName=dpar39.vscode-rest-control)
+
+5. Build the project:
    ```
    bun run build
    ```
@@ -51,3 +58,7 @@ To set up the Cursor Sync tool in your JetBrains IDE (e.g., WebStorm, IntelliJ I
 6. Click OK to save the configuration.
 
 Now you can use the Cursor Sync tool from the Tools > External Tools menu in your IDE.
+
+### Visual Studio Code Configuration
+
+Before running the Cursor Sync tool in Visual Studio Code, make sure you have installed the "REST Control" extension as described in the Installation section. This extension is required for proper functionality of the tool.
