@@ -48,12 +48,13 @@ async function main() {
   const parsedArgs = parseProcessArgs();
 
   if (parsedArgs.root) {
-    const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0")
-      .split("-")
-      .map((s) => {
-        const [line, column] = s.split(":");
-        return { line: Number(line), column: Number(column), s };
-      });
+    if (parsedArgs.command === "quick-chat") await runCommand("aichat.close-sidebar");
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
+
+    const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
+      const [line, column] = s.split(":");
+      return { line: Number(line), column: Number(column), s };
+    });
     let shouldSelect = false;
 
     // console.log("Parsed arguments:", parsedArgs);
@@ -72,12 +73,9 @@ async function main() {
 
     await Promise.all([
       new Promise<void>((resolve) => {
-        exec(
-          `cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`,
-          async () => {
-            resolve();
-          },
-        );
+        exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
+          resolve();
+        });
       }),
       autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]"),
     ]);
@@ -105,8 +103,7 @@ async function main() {
         ]);
       }
 
-      const endColumn =
-        selectionInfo[1].column - 1 - (selectionInfo[0].column - 1);
+      const endColumn = selectionInfo[1].column - 1 - (selectionInfo[0].column - 1);
 
       if (endColumn > 0) {
         await runCommand("cursorMove", [
@@ -119,6 +116,9 @@ async function main() {
         ]);
       }
     }
+
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
+    if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
   } else {
     await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
   }
