@@ -2,9 +2,9 @@
 import autoit from "node-autoit-koffi";
 import { exec } from "child_process";
 
-function parseProcessArgs(): Record<string, any> {
+function parseProcessArgs(): Record<string, unknown> {
   const args = process.argv.slice(2);
-  const result: Record<string, any> = {};
+  const result: Record<string, unknown> = {};
 
   for (const arg of args) {
     const [key, value] = arg.split("=");
@@ -12,10 +12,26 @@ function parseProcessArgs(): Record<string, any> {
       .replace(/^--/, "")
       .replace(/-([a-z])/g, (_, letter) => letter.toUpperCase());
 
-    result[propertyName] = isNaN(Number(value)) ? value : Number(value);
+    result[propertyName] = parseValue(value);
   }
 
   return result;
+}
+
+function parseValue(value: string): unknown {
+  if (value === undefined) return true; // Flag arguments
+  if (value.toLowerCase() === "true") return true;
+  if (value.toLowerCase() === "false") return false;
+  if (value === "") return "";
+  if (!isNaN(Number(value))) return Number(value);
+  if (value.startsWith("{") || value.startsWith("[")) {
+    try {
+      return JSON.parse(value);
+    } catch {
+      // If parsing fails, return as string
+    }
+  }
+  return value; // Default to string
 }
 
 async function main() {
