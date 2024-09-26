@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run build && node .\\build\\index.js",
+    "start": "bun run build && node ./build/index.js",
     "build": "bun build ./index.ts --outdir ./build --target node --external node-autoit-koffi"
   },
   "devDependencies": {
