@@ -56,8 +56,8 @@ async function main() {
       });
     let shouldSelect = false;
 
-    console.log("Parsed arguments:", parsedArgs);
-    console.log("Selection info:", selectionInfo);
+    // console.log("Parsed arguments:", parsedArgs);
+    // console.log("Selection info:", selectionInfo);
 
     if (selectionInfo[0].s !== selectionInfo[1].s) {
       parsedArgs.lineNumber = selectionInfo[0].line;
