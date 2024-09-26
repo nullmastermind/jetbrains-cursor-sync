@@ -43,7 +43,7 @@ To set up the Cursor Sync tool in your JetBrains IDE (e.g., WebStorm, IntelliJ I
    - Name: Cursor Sync
    - Group: External Tools
    - Program: `C:\Program Files\nodejs\node.exe` (adjust path if necessary)
-   - Arguments: `./build/index.js --root=$ContentRoot$ --column-number=$ColumnNumber$ --line-number=$LineNumber$ --file-path=$FilePath$`
+   - Arguments: `./build/index.js --root=$ContentRoot$ --column-number=$ColumnNumber$ --line-number=$LineNumber$ --file-path=$FilePath$ --select=$SelectionStartLine$:$SelectionStartColumn$-$SelectionEndLine$:$SelectionEndColumn$`
    - Working directory: `D:\projects\NodeJs\cursor-sync` (adjust to your project path)
 5. In the Advanced Options section:
    - Check "Synchronize files after execution"

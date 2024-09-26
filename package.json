@@ -7,13 +7,16 @@
     "build": "bun build ./index.ts --outdir ./build --target node --external node-autoit-koffi"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/bun": "latest",
+    "@types/node": "^22.7.2",
     "prettier": "^3.3.3"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "axios": "^1.7.7",
     "node-autoit-koffi": "^1.0.5"
   }
 }
