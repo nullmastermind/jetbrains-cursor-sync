@@ -12,9 +12,25 @@
 
 ## Installation
 
-Provide step-by-step instructions on how to install your project. For example:
+1. Ensure you have `bun` installed on your system. If not, install it from [https://bun.sh](https://bun.sh).
 
-## IDE Configuration
+2. Clone the repository:
+   ```
+   git clone https://github.com/your-username/cursor-sync.git
+   cd cursor-sync
+   ```
+
+3. Install dependencies:
+   ```
+   bun install
+   ```
+
+4. Build the project:
+   ```
+   bun run build
+   ```
+
+## Usage, IDE Configuration
 
 ### JetBrains IDE External Tool Configuration
 
