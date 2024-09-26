@@ -36,10 +36,12 @@ function parseValue(value: string): unknown {
 }
 
 const runCommand = async (commandId: string, args?: any) => {
-  await axios.post("http://localhost:3711/command", {
-    command: commandId,
-    args,
-  });
+  await axios
+    .post("http://localhost:3711/command", {
+      command: commandId,
+      args,
+    })
+    .catch(() => Promise.resolve());
 };
 
 async function main() {
