@@ -22,7 +22,8 @@ async function main() {
   await autoit.init();
 
   const parsedArgs = parseProcessArgs();
-  console.log("Parsed arguments:", parsedArgs);
+
+  // console.log("Parsed arguments:", parsedArgs);
 
   if (parsedArgs.root) {
     await new Promise<void>(async (resolve) => {
