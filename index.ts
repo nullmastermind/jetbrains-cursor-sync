@@ -134,7 +134,7 @@ async function main() {
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
     await Promise.all(
-      Array(32)
+      Array(10)
         .fill(null)
         .map(() => runCommand("scrollLeft")),
     );
