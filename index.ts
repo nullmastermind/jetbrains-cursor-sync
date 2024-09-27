@@ -52,8 +52,8 @@ async function main() {
   const parsedArgs = parseProcessArgs();
 
   if (parsedArgs.root) {
-    if (parsedArgs.command !== "chat") void runCommand("aichat.close-sidebar");
-    if (parsedArgs.command === "chat") void runCommand("aichat.newchatbuttonaction");
+    if (parsedArgs.command !== "chat") await runCommand("aichat.close-sidebar");
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
       const [line, column] = s.split(":");
@@ -75,11 +75,15 @@ async function main() {
     const lineNumber = parsedArgs.lineNumber;
     const columnNumber = parsedArgs.columnNumber;
 
+    // console.time("1");
+
     await new Promise<void>((resolve) => {
       exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
         resolve();
       });
     });
+
+    // console.timeEnd("1");
 
     if (shouldSelect) {
       if (selectionInfo[0].column > 1) {
@@ -118,10 +122,10 @@ async function main() {
       }
     }
 
-    if (parsedArgs.command === "chat") void runCommand("aichat.newchataction");
-    if (parsedArgs.command === "quick-chat") void runCommand("aipopup.action.modal.generate");
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
+    if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
-    void runCommand("viewPortCenter");
+    await runCommand("viewPortCenter");
   }
 }
 
