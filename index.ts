@@ -35,7 +35,7 @@ function parseValue(value: string): unknown {
   return value; // Default to string
 }
 
-const runCommand = async (commandId: string, args?: any) => {
+const runCommand = async (commandId: string, args?: any[]) => {
   await axios
     .post("http://localhost:3711/command", {
       command: commandId,
@@ -50,8 +50,8 @@ async function main() {
   const parsedArgs = parseProcessArgs();
 
   if (parsedArgs.root) {
-    if (parsedArgs.command === "quick-chat") await runCommand("aichat.close-sidebar");
-    if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
+    if (parsedArgs.command !== "chat") void runCommand("aichat.close-sidebar");
+    if (parsedArgs.command === "chat") void runCommand("aichat.newchatbuttonaction");
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
       const [line, column] = s.split(":");
@@ -84,7 +84,7 @@ async function main() {
 
     if (shouldSelect) {
       if (selectionInfo[0].column > 1) {
-        await runCommand("cursorMove", [
+        void runCommand("cursorMove", [
           {
             to: "right",
             by: "character",
@@ -95,7 +95,7 @@ async function main() {
       }
 
       if (selectionInfo[0].line !== selectionInfo[1].line) {
-        await runCommand("cursorMove", [
+        void runCommand("cursorMove", [
           {
             to: "down",
             by: "wrappedLineStart",
@@ -108,7 +108,7 @@ async function main() {
       const endColumn = selectionInfo[1].column - 1 - (selectionInfo[0].column - 1);
 
       if (endColumn > 0) {
-        await runCommand("cursorMove", [
+        void runCommand("cursorMove", [
           {
             to: "right",
             by: "character",
@@ -119,8 +119,9 @@ async function main() {
       }
     }
 
-    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
-    if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
+    if (parsedArgs.command === "chat") void runCommand("aichat.newchataction");
+    if (parsedArgs.command === "quick-chat") void runCommand("aipopup.action.modal.generate");
+    void runCommand("viewPortCenter");
   } else {
     await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
   }
