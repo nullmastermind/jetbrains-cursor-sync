@@ -47,6 +47,8 @@ const runCommand = async (commandId: string, args?: any[]) => {
 async function main() {
   await autoit.init();
 
+  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
+
   const parsedArgs = parseProcessArgs();
 
   if (parsedArgs.root) {
@@ -120,10 +122,6 @@ async function main() {
     if (parsedArgs.command === "quick-chat") void runCommand("aipopup.action.modal.generate");
 
     void runCommand("viewPortCenter");
-
-    await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
-  } else {
-    await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
   }
 }
 
