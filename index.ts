@@ -46,7 +46,6 @@ const runCommand = async (commandId: string, args?: any[]) => {
 
 async function main() {
   await autoit.init();
-  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 
   const parsedArgs = parseProcessArgs();
   let endColumn = 0;
@@ -139,6 +138,8 @@ async function main() {
         .map(() => runCommand("scrollLeft")),
     );
   }
+
+  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 }
 
 void main();
