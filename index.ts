@@ -50,8 +50,10 @@ async function main() {
   const parsedArgs = parseProcessArgs();
 
   if (parsedArgs.root) {
-    if (parsedArgs.command !== "chat") void runCommand("aichat.close-sidebar");
-    if (parsedArgs.command === "chat") void runCommand("aichat.newchatbuttonaction");
+    await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
+
+    if (parsedArgs.command !== "chat") await runCommand("aichat.close-sidebar");
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
       const [line, column] = s.split(":");
@@ -73,18 +75,15 @@ async function main() {
     const lineNumber = parsedArgs.lineNumber;
     const columnNumber = parsedArgs.columnNumber;
 
-    await Promise.all([
-      new Promise<void>((resolve) => {
-        exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
-          resolve();
-        });
-      }),
-      autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]"),
-    ]);
+    await new Promise<void>((resolve) => {
+      exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
+        resolve();
+      });
+    });
 
     if (shouldSelect) {
       if (selectionInfo[0].column > 1) {
-        void runCommand("cursorMove", [
+        await runCommand("cursorMove", [
           {
             to: "right",
             by: "character",
@@ -95,7 +94,7 @@ async function main() {
       }
 
       if (selectionInfo[0].line !== selectionInfo[1].line) {
-        void runCommand("cursorMove", [
+        await runCommand("cursorMove", [
           {
             to: "down",
             by: "wrappedLineStart",
@@ -108,7 +107,7 @@ async function main() {
       const endColumn = selectionInfo[1].column - 1 - (selectionInfo[0].column - 1);
 
       if (endColumn > 0) {
-        void runCommand("cursorMove", [
+        await runCommand("cursorMove", [
           {
             to: "right",
             by: "character",
@@ -119,9 +118,10 @@ async function main() {
       }
     }
 
-    if (parsedArgs.command === "chat") void runCommand("aichat.newchataction");
-    if (parsedArgs.command === "quick-chat") void runCommand("aipopup.action.modal.generate");
-    void runCommand("viewPortCenter");
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
+    if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
+
+    await runCommand("viewPortCenter");
   } else {
     await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
   }
