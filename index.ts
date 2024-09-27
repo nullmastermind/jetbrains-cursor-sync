@@ -36,12 +36,12 @@ function parseValue(value: string): unknown {
 }
 
 const runCommand = async (commandId: string, args?: any[]) => {
-  await axios
+  return await axios
     .post("http://localhost:3711/command", {
       command: commandId,
       args,
     })
-    .catch(() => Promise.resolve());
+    .catch((e) => Promise.resolve(e.response));
 };
 
 async function main() {
@@ -70,18 +70,22 @@ async function main() {
 
     const root = JSON.stringify(parsedArgs.root);
     const filePath = JSON.stringify(parsedArgs.filePath);
-    const lineNumber = parsedArgs.lineNumber;
+    const lineNumber = Number(parsedArgs.lineNumber);
     const columnNumber = parsedArgs.columnNumber;
 
-    // console.time("1");
-
-    await new Promise<void>((resolve) => {
-      exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
-        resolve();
+    if (!(await autoit.winExists("[REGEXPTITLE:(.*?)- Cursor]"))) {
+      await new Promise<void>((resolve) => {
+        exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
+          resolve();
+        });
       });
-    });
-
-    // console.timeEnd("1");
+    } else {
+      await runCommand("custom.goToFileLineCharacter", [
+        parsedArgs.filePath,
+        lineNumber - 1,
+        columnNumber,
+      ]);
+    }
 
     if (shouldSelect) {
       if (selectionInfo[0].column > 1) {
