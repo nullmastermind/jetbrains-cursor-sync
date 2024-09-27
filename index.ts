@@ -47,12 +47,10 @@ const runCommand = async (commandId: string, args?: any[]) => {
 async function main() {
   await autoit.init();
 
-  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
-
   const parsedArgs = parseProcessArgs();
 
   if (parsedArgs.root) {
-    if (parsedArgs.command !== "chat") await runCommand("aichat.close-sidebar");
+    await runCommand("aichat.close-sidebar");
     if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
@@ -127,6 +125,8 @@ async function main() {
 
     await runCommand("viewPortCenter");
   }
+
+  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 }
 
 void main();
