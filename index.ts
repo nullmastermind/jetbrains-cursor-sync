@@ -51,7 +51,7 @@ async function main() {
 
   if (parsedArgs.root) {
     await runCommand("aichat.close-sidebar");
-    if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
+    // if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
       const [line, column] = s.split(":");
@@ -124,7 +124,10 @@ async function main() {
       }
     }
 
-    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
+    if (parsedArgs.command === "chat") {
+      await runCommand("aichat.newchatbuttonaction");
+      await runCommand("aichat.newchataction");
+    }
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
     await runCommand("viewPortCenter");
