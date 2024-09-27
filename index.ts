@@ -46,12 +46,16 @@ const runCommand = async (commandId: string, args?: any[]) => {
 
 async function main() {
   await autoit.init();
+  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 
   const parsedArgs = parseProcessArgs();
+  let endColumn = 0;
 
   if (parsedArgs.root) {
-    await runCommand("aichat.close-sidebar");
-    // if (parsedArgs.command === "chat") await runCommand("aichat.newchatbuttonaction");
+    if (parsedArgs.command !== "chat") {
+      // await runCommand("aichat.newchatbuttonaction");
+      await runCommand("aichat.close-sidebar");
+    }
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
       const [line, column] = s.split(":");
@@ -110,7 +114,7 @@ async function main() {
         ]);
       }
 
-      const endColumn = selectionInfo[1].column - 1 - (selectionInfo[0].column - 1);
+      endColumn = selectionInfo[1].column - 1 - (selectionInfo[0].column - 1);
 
       if (endColumn > 0) {
         await runCommand("cursorMove", [
@@ -125,15 +129,16 @@ async function main() {
     }
 
     if (parsedArgs.command === "chat") {
-      await runCommand("aichat.newchatbuttonaction");
       await runCommand("aichat.newchataction");
     }
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
-    await runCommand("wrappedLineStart");
+    await Promise.all(
+      Array(32)
+        .fill(null)
+        .map(() => runCommand("scrollLeft")),
+    );
   }
-
-  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 }
 
 void main();
