@@ -130,7 +130,7 @@ async function main() {
     }
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
-    await runCommand("viewPortCenter");
+    await runCommand("wrappedLineStart");
   }
 
   await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
