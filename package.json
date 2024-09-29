@@ -3,7 +3,7 @@
   "module": "index.ts",
   "type": "module",
   "scripts": {
-    "start": "bun run build && node ./build/index.js",
+    "start": "bun run index.ts",
     "build": "bun build ./index.ts --compile --outfile dist/cursorsync --target bun",
     "run:window": "bun run autoit.ts"
   },
