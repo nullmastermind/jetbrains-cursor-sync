@@ -105,7 +105,7 @@ async function main() {
         await runCommand("cursorMove", [
           {
             to: "down",
-            by: "wrappedLineStart",
+            by: "line",
             select: true,
             value: selectionInfo[1].line - selectionInfo[0].line,
           },
