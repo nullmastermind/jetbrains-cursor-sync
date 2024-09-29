@@ -47,6 +47,7 @@ const runCommand = async (commandId: string, args?: any[]) => {
 async function main() {
   const parsedArgs = parseProcessArgs();
   let endColumn = 0;
+  const cursorWindowTitle = "[REGEXPTITLE:(.*?)- Cursor]";
 
   if (parsedArgs.root) {
     if (parsedArgs.command !== "chat") {
@@ -74,7 +75,7 @@ async function main() {
     const lineNumber = Number(parsedArgs.lineNumber);
     const columnNumber = parsedArgs.columnNumber;
 
-    if (!winExists("[REGEXPTITLE:(.*?)- Cursor]")) {
+    if (!winExists(cursorWindowTitle)) {
       await new Promise<void>((resolve) => {
         exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
           resolve();
@@ -137,7 +138,7 @@ async function main() {
     );
   }
 
-  winActivate("[REGEXPTITLE:(.*?)- Cursor]");
+  winActivate(cursorWindowTitle);
 }
 
 void main();
