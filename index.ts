@@ -1,7 +1,7 @@
 // ./build/index.js --root=$ContentRoot$ --column-number=$ColumnNumber$ --line-number=$LineNumber$ --file-path=$FilePath$
-import autoit from "node-autoit-koffi";
 import { exec } from "child_process";
 import axios from "axios";
+import { winActivate, winExists } from "./autoit.ts";
 
 function parseProcessArgs(): Record<string, unknown> {
   const args = process.argv.slice(2);
@@ -45,8 +45,6 @@ const runCommand = async (commandId: string, args?: any[]) => {
 };
 
 async function main() {
-  await autoit.init();
-
   const parsedArgs = parseProcessArgs();
   let endColumn = 0;
 
@@ -76,7 +74,7 @@ async function main() {
     const lineNumber = Number(parsedArgs.lineNumber);
     const columnNumber = parsedArgs.columnNumber;
 
-    if (!(await autoit.winExists("[REGEXPTITLE:(.*?)- Cursor]"))) {
+    if (!winExists("[REGEXPTITLE:(.*?)- Cursor]")) {
       await new Promise<void>((resolve) => {
         exec(`cursor ${root} -g ${filePath}:${lineNumber}:${columnNumber}`, async () => {
           resolve();
@@ -139,7 +137,7 @@ async function main() {
     );
   }
 
-  await autoit.winActivate("[REGEXPTITLE:(.*?)- Cursor]");
+  winActivate("[REGEXPTITLE:(.*?)- Cursor]");
 }
 
 void main();
