@@ -126,9 +126,9 @@ async function main() {
       }
     }
 
-    if (parsedArgs.command === "chat") {
-      await runCommand("aichat.newchataction");
-    }
+    winActivate(cursorWindowTitle);
+
+    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
     await Promise.all(
@@ -136,9 +136,9 @@ async function main() {
         .fill(null)
         .map(() => runCommand("scrollLeft")),
     );
+  } else {
+    winActivate(cursorWindowTitle);
   }
-
-  winActivate(cursorWindowTitle);
 }
 
 void main();
