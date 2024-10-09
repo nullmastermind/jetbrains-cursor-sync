@@ -4,7 +4,7 @@
   "type": "module",
   "scripts": {
     "start": "bun run index.ts",
-    "build": "bun build ./index.ts --compile --outfile dist/cursorsync --target bun",
+    "build": "bun build --compile --minify --bytecode ./index.ts --outfile dist/cursorsync --target bun",
     "run:window": "bun run autoit.ts"
   },
   "devDependencies": {
