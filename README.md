@@ -25,7 +25,7 @@
    bun install
    ```
 
-4. Install the "REST Control" extension for Visual Studio Code:
+4. Install the "REST Control v0.0.13" extension for Visual Studio Code:
    - Open Visual Studio Code
    - Go to the Extensions view (Ctrl+Shift+X or Cmd+Shift+X)
    - Search for "REST Control"
