@@ -53,6 +53,9 @@ async function main() {
     if (parsedArgs.command !== "chat") {
       // await runCommand("aichat.newchatbuttonaction");
       await runCommand("aichat.close-sidebar");
+    } else {
+      await runCommand("composer.createNew");
+      await runCommand("aichat.close-sidebar");
     }
 
     const selectionInfo = ((parsedArgs.select as string) || "0:0-0:0").split("-").map((s) => {
@@ -128,7 +131,10 @@ async function main() {
 
     winActivate(cursorWindowTitle);
 
-    if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
+    // if (parsedArgs.command === "chat") await runCommand("aichat.newchataction");
+    if (parsedArgs.command === "chat") {
+      await runCommand("composer.startComposerPrompt");
+    }
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
     await Promise.all(
