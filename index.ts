@@ -132,9 +132,11 @@ async function main() {
     winActivate(cursorWindowTitle);
 
     if (parsedArgs.command === "chat") {
-      await runCommand("aichat.newchataction");
+      await runCommand("composer.createNewComposerTab");
+      // await runCommand("aichat.newchataction");
+      await runCommand("composerMode.edit");
     } else if (parsedArgs.command === "composer") {
-      await runCommand("composer.startComposerPrompt");
+      await runCommand("composer.newAgentChat");
     }
     if (parsedArgs.command === "quick-chat") await runCommand("aipopup.action.modal.generate");
 
