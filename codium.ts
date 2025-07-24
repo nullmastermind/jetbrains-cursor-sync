@@ -152,6 +152,8 @@ async function codiumMain() {
     }
   }
 
+  await runCommand("vscode-augment.focusAugmentPanel");
+
   console.log("[DONE]");
 }
 
