@@ -84,7 +84,7 @@ function parseValue(value: string): unknown {
 async function codiumMain() {
   await ensureSettings();
 
-  exec("vscodium .", {
+  exec("code .", {
     cwd: process.cwd(),
   });
 
